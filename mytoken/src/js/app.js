@@ -36,10 +36,10 @@ App = {
   handleTransfer: function(event) {
     event.preventDefault();
 
-    var amount = parseInt($('#TTTransferAmount').val());
-    var toAddress = $('#TTTransferAddress').val();
+    var amount = parseInt($('#MTTransferAmount').val());
+    var toAddress = $('#MTTransferAddress').val();
 
-    console.log('Transfer ' + amount + ' TT to ' + toAddress);
+    console.log('Transfer ' + amount + ' MT to ' + toAddress);
 
     var tutorialTokenInstance;
 
@@ -74,7 +74,7 @@ App = {
       }
      //window.ethereum.enable();
       var account = accounts[0];
-      $('#TTAddress').text(account);
+      $('#MTAddress').text(account);
       console.log(accounts);
       console.log('test');
       App.contracts.TutorialToken.deployed().then(function(instance) {
@@ -84,7 +84,7 @@ App = {
       }).then(function(result) {
         console.log(result);
         balance = result.c[0];
-        $('#TTBalance').text(balance);
+        $('#MTBalance').text(balance);
       }).catch(function(err) {
         console.log(err.message);
       });
