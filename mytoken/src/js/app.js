@@ -12,7 +12,8 @@ App = {
       App.web3Provider = window['ethereum']
     }
     App.web3js = new Web3 (App.web3Provider);
-    
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    console.log(accounts);
     return App.initContract();
   },
 
@@ -54,7 +55,8 @@ App = {
 
         return tutorialTokenInstance.transfer(toAddress, amount, {from: account, gas: 100000});
       }).then(function(result) {
-        alert('Transfer Successful!');
+        alert('Transfer Successful!\n\n'+result.receipt.gasUsed+' amount of gas used');
+        console.log(result);
         return App.getBalances();
       }).catch(function(err) {
         console.log(err.message);
@@ -63,20 +65,24 @@ App = {
   },
 
   getBalances: function() {
+   
     console.log('Getting balances...');
     var tutorialTokenInstance;
-    App.web3js.eth.getAccounts(function(error, accounts) {
+    App.web3js.eth.getAccounts(function(error,accounts) {
       if (error) {
         console.log(error);
       }
-      window.ethereum.enable();
+     //window.ethereum.enable();
       var account = accounts[0];
+      $('#TTAddress').text(account);
       console.log(accounts);
+      console.log('test');
       App.contracts.TutorialToken.deployed().then(function(instance) {
         tutorialTokenInstance = instance;
         console.log(tutorialTokenInstance);
         return tutorialTokenInstance.balanceOf(account);
       }).then(function(result) {
+        console.log(result);
         balance = result.c[0];
         $('#TTBalance').text(balance);
       }).catch(function(err) {
